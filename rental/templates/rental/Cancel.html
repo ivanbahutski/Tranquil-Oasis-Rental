@@ -1,0 +1,19 @@
+{% load i18n %}
+<!DOCTYPE html>
+<html lang="{{ LANGUAGE_CODE }}">
+<head>
+    <meta charset="UTF-8">
+    <title>{% trans "Payment Canceled" %}</title>
+</head>
+<body>
+
+<h1 style="color: red;">{% trans "Payment Canceled" %}</h1>
+
+<p>{% trans "Your payment was canceled. Your reservation is still pending." %}</p>
+
+<p>{% trans "If you still wish to confirm your reservation, please try again to complete the payment." %}</p>
+
+<a href="{% url 'property_list' %}">{% trans "Return to Home Page" %}</a>
+
+</body>
+</html>

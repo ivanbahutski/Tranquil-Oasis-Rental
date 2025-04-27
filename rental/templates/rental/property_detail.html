@@ -1,0 +1,74 @@
+{% load i18n %}
+<!DOCTYPE html>
+<html lang="{{ LANGUAGE_CODE }}">
+<head>
+    <meta charset="UTF-8">
+    <title>{{ property.title }}</title>
+
+    <!-- Flatpickr CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+</head>
+<body>
+
+<!-- Language Switcher -->
+<form action="{% url 'set_language' %}" method="post">
+    {% csrf_token %}
+    <select name="language" onchange="this.form.submit()">
+        {% get_current_language as LANGUAGE_CODE %}
+        {% get_available_languages as LANGUAGES %}
+        {% for lang_code, lang_name in LANGUAGES %}
+            <option value="{{ lang_code }}" {% if lang_code == LANGUAGE_CODE %}selected{% endif %}>
+                {{ lang_name }}
+            </option>
+        {% endfor %}
+    </select>
+</form>
+
+<h1>{{ property.title }}</h1>
+
+<p><strong>{% trans "Description" %}:</strong> {{ property.description }}</p>
+<p><strong>{% trans "Price per night" %}:</strong> {{ property.price_per_night }} €</p>
+<p><strong>{% trans "Address" %}:</strong> {{ property.address }}</p>
+
+<a href="{% url 'property_list' %}">{% trans "Back to list" %}</a>
+
+<h2>{% trans "Availability Calendar" %}</h2>
+<div id="calendar"></div>
+
+<h2>{% trans "Reserve this property" %}</h2>
+
+<form method="post" id="booking-form">
+    {% csrf_token %}
+
+    <label for="date_range">{% trans "Select Dates" %}:</label><br>
+    <input type="text" id="dateRangePicker" name="date_range" required><br><br>
+
+    <label for="name">{% trans "Name" %}:</label><br>
+    <input type="text" name="name" required><br><br>
+
+    <label for="email">{% trans "Email" %}:</label><br>
+    <input type="email" name="email" required><br><br>
+
+    <label for="phone">{% trans "Phone" %}:</label><br>
+    <input type="text" name="phone" required><br><br>
+
+    <button type="submit">{% trans "Reserve" %}</button>
+</form>
+
+<!-- Flatpickr JS -->
+<script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+
+<script>
+// Инициализация календаря
+flatpickr("#dateRangePicker", {
+    mode: "range",
+    dateFormat: "Y-m-d",
+    inline: true,
+    disable: {{ booked_dates|safe }},
+    minDate: "today",
+    locale: "{{ LANGUAGE_CODE }}",
+});
+</script>
+
+</body>
+</html>

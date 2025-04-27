@@ -1,0 +1,37 @@
+{% load i18n %}
+<!DOCTYPE html>
+<html lang="{{ LANGUAGE_CODE }}">
+<head>
+    <meta charset="UTF-8">
+    <title>{% trans "Reservation Successful" %}</title>
+</head>
+<body>
+
+<h1>{% trans "Reservation Successful" %}</h1>
+
+<p>{% trans "Thank you for your reservation." %}</p>
+
+<h2>{% trans "Booking Details" %}</h2>
+<ul>
+    <li><strong>{% trans "Property" %}:</strong> {{ booking.property.title }}</li>
+    <li><strong>{% trans "Name" %}:</strong> {{ booking.name }}</li>
+    <li><strong>{% trans "Dates" %}:</strong> {{ booking.check_in }} — {{ booking.check_out }}</li>
+    <li><strong>{% trans "Total nights" %}:</strong> {{ nights }}</li>
+    <li><strong>{% trans "Price per night" %}:</strong> {{ booking.property.price_per_night }} €</li>
+</ul>
+
+<h2>{% trans "Payment" %}</h2>
+
+{% if booking.is_paid %}
+    <p style="color: green;"><strong>{% trans "Already Paid" %}</strong></p>
+{% else %}
+    <form action="{% url 'create_checkout_session' booking.pk %}" method="POST">
+        {% csrf_token %}
+        <button type="submit">{% trans "Pay now" %}</button>
+    </form>
+{% endif %}
+
+<a href="{% url 'property_list' %}">{% trans "Back to Home" %}</a>
+
+</body>
+</html>

@@ -1,0 +1,55 @@
+msgid ""
+msgstr ""
+"Content-Type: text/plain; charset=UTF-8\n"
+
+msgid "Available Properties"
+msgstr "Доступные объекты"
+
+msgid "No properties available at the moment."
+msgstr "На данный момент нет доступных объектов."
+
+msgid "Description"
+msgstr "Описание"
+
+msgid "Price per night"
+msgstr "Цена за ночь"
+
+msgid "Address"
+msgstr "Адрес"
+
+msgid "Back to list"
+msgstr "Назад к списку"
+
+msgid "Availability Calendar"
+msgstr "Календарь доступности"
+
+msgid "Book this property"
+msgstr "Забронировать объект"
+
+msgid "Name"
+msgstr "Имя"
+
+msgid "Email"
+msgstr "Электронная почта"
+
+msgid "Phone"
+msgstr "Телефон"
+
+msgid "Check-in date"
+msgstr "Дата заезда"
+
+msgid "Check-out date"
+msgstr "Дата выезда"
+
+msgid "Book now"
+msgstr "Забронировать сейчас"
+
+msgid "Thank you for booking"
+msgstr "Спасибо за бронирование"
+
+msgid "We will contact you shortly to confirm your reservation."
+msgstr "Мы свяжемся с вами для подтверждения бронирования."
+
+msgid "Return to Home"
+msgstr "Вернуться на главную"
+

@@ -1,0 +1,55 @@
+msgid ""
+msgstr ""
+"Content-Type: text/plain; charset=UTF-8\n"
+
+msgid "Available Properties"
+msgstr "Propriétés disponibles"
+
+msgid "No properties available at the moment."
+msgstr "Aucune propriété disponible pour le moment."
+
+msgid "Description"
+msgstr "Description"
+
+msgid "Price per night"
+msgstr "Prix par nuit"
+
+msgid "Address"
+msgstr "Adresse"
+
+msgid "Back to list"
+msgstr "Retour à la liste"
+
+msgid "Availability Calendar"
+msgstr "Calendrier de disponibilité"
+
+msgid "Book this property"
+msgstr "Réserver cette propriété"
+
+msgid "Name"
+msgstr "Nom"
+
+msgid "Email"
+msgstr "E-mail"
+
+msgid "Phone"
+msgstr "Téléphone"
+
+msgid "Check-in date"
+msgstr "Date d'arrivée"
+
+msgid "Check-out date"
+msgstr "Date de départ"
+
+msgid "Book now"
+msgstr "Réserver maintenant"
+
+msgid "Thank you for booking"
+msgstr "Merci pour votre réservation"
+
+msgid "We will contact you shortly to confirm your reservation."
+msgstr "Nous vous contacterons bientôt pour confirmer votre réservation."
+
+msgid "Return to Home"
+msgstr "Retour à l'accueil"
+
