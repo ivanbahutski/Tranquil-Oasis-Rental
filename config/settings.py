@@ -5,7 +5,7 @@ import environ
 from pathlib import Path
 
 # --- Настройки окружения ---
-BASE_DIR = Path(file).resolve().parent.parent.parent
+BASE_DIR = Path(__file__).resolve().parent.parent.parent
 
 env = environ.Env(
     DEBUG=(bool, False)
