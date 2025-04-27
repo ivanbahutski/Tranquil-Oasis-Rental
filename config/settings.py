@@ -17,7 +17,7 @@ environ.Env.read_env(os.path.join(BASE_DIR, '.env'))
 # --- Основные настройки ---
 SECRET_KEY = env('DJANGO_SECRET_KEY')
 DEBUG = env('DEBUG')
-ALLOWED_HOSTS = ['yourdomain.com', '127.0.0.1', 'localhost']  # Укажи свой домен
+ALLOWED_HOSTS = ['https://tranquil-oasis-rental-production.up.railway.app/', '127.0.0.1', 'localhost']  # Укажи свой домен
 
 # --- Приложения ---
 INSTALLED_APPS = [
