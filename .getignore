@@ -1,1 +1,32 @@
+# Python
+pycache/
+*.py[cod]
+*.sqlite3
+*.log
+
+# Virtual environment
+venv/
+env/
+
+# Django stuff
+*.pot
+*.pyc
+
+# Environment variables
 .env
+
+# VS Code settings (если используешь VSCode)
+.vscode/
+
+# macOS system files
+.DS_Store
+
+# Other
+*.bak
+*.swp
+.idea/  # если работаешь в PyCharm
+*.sublime-project
+*.sublime-workspace
+
+# Node.js (если вдруг используешь npm для фронтенда)
+node_modules/
