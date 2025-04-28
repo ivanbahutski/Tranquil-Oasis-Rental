@@ -119,3 +119,31 @@ def create_checkout_session(request, booking_id):
         ),
     )
     return redirect(session.url)
+
+
+def home(request):
+    return render(request, 'home.html')
+
+
+def accommodation(request):
+    return render(request, 'accommodation.html')
+
+
+def destinations(request):
+    return render(request, 'destinations.html')
+
+
+def services(request):
+    return render(request, 'services.html')
+
+
+def experiences(request):
+    return render(request, 'experiences.html')
+
+
+def offers(request):
+    return render(request, 'offers.html')
+
+
+def blog(request):
+    return render(request, 'blog.html')
