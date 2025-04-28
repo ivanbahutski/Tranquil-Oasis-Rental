@@ -1,11 +1,8 @@
-{% load i18n %}
-<!DOCTYPE html>
-<html lang="{{ LANGUAGE_CODE }}">
-<head>
-    <meta charset="UTF-8">
-    <title>{% trans "Payment Canceled" %}</title>
-</head>
-<body>
+{% extends "menu/base.html" %}
+{% load i18n static %}
+
+{% block content %}
+<title>{% trans "Payment Canceled" %}</title>
 
 <h1 style="color: red;">{% trans "Payment Canceled" %}</h1>
 
@@ -14,6 +11,4 @@
 <p>{% trans "If you still wish to confirm your reservation, please try again to complete the payment." %}</p>
 
 <a href="{% url 'property_list' %}">{% trans "Return to Home Page" %}</a>
-
-</body>
-</html>
+{% endblock %}

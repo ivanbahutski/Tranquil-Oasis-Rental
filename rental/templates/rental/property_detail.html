@@ -1,28 +1,9 @@
+{% extends "menu/base.html" %}
 {% load i18n %}
-<!DOCTYPE html>
-<html lang="{{ LANGUAGE_CODE }}">
-<head>
-    <meta charset="UTF-8">
-    <title>{{ property.title }}</title>
 
-    <!-- Flatpickr CSS -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
-</head>
-<body>
+{% block content %}
+<title>{{ property.title }}</title>
 
-<!-- Language Switcher -->
-<form action="{% url 'set_language' %}" method="post">
-    {% csrf_token %}
-    <select name="language" onchange="this.form.submit()">
-        {% get_current_language as LANGUAGE_CODE %}
-        {% get_available_languages as LANGUAGES %}
-        {% for lang_code, lang_name in LANGUAGES %}
-            <option value="{{ lang_code }}" {% if lang_code == LANGUAGE_CODE %}selected{% endif %}>
-                {{ lang_name }}
-            </option>
-        {% endfor %}
-    </select>
-</form>
 
 <h1>{{ property.title }}</h1>
 
@@ -30,7 +11,6 @@
 <p><strong>{% trans "Price per night" %}:</strong> {{ property.price_per_night }} €</p>
 <p><strong>{% trans "Address" %}:</strong> {{ property.address }}</p>
 
-<a href="{% url 'property_list' %}">{% trans "Back to list" %}</a>
 
 <h2>{% trans "Availability Calendar" %}</h2>
 <div id="calendar"></div>
@@ -69,6 +49,4 @@ flatpickr("#dateRangePicker", {
     locale: "{{ LANGUAGE_CODE }}",
 });
 </script>
-
-</body>
-</html>
+{% endblock %}

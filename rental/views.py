@@ -52,19 +52,27 @@ def property_detail(request, pk):
             check_out=check_out,
             is_paid=False,
         )
+
         # --- ОТПРАВКА ПИСЬМА ---
         subject = "New Booking Request"
         from_email = settings.DEFAULT_FROM_EMAIL
         to_email = settings.ADMIN_EMAIL  # сюда приходит письмо (например, твой email администратора)
-        text_content = f"New booking:\n\nProperty: {property.title}\nName: {name}\nEmail: {email}\nPhone: {phone}\nCheck-in: {check_in}\nCheck-out: {check_out}"
+        # форматируем даты
+        check_in_str = check_in.strftime("%d %B %Y")
+        check_out_str = check_out.strftime("%d %B %Y")
+
+        # создаем текст письма
+        text_content = f"New booking:\n\nProperty: {property.title}\nName: {name}\nEmail: {email}\nPhone: {phone}\n" \
+                       f"Check-in: {check_in_str}\nCheck-out: {check_out_str}"
+
         html_content = f"""
         <h2>New Booking Request</h2>
         <p><strong>Property:</strong> {property.title}</p>
         <p><strong>Name:</strong> {name}</p>
         <p><strong>Email:</strong> {email}</p>
         <p><strong>Phone:</strong> {phone}</p>
-        <p><strong>Check-in:</strong> {check_in}</p>
-        <p><strong>Check-out:</strong> {check_out}</p>
+        <p><strong>Check-in:</strong> {check_in_str}</p>
+        <p><strong>Check-out:</strong> {check_out_str}</p>
         """
 
         msg = EmailMultiAlternatives(subject, text_content, from_email, [to_email])
@@ -121,29 +129,25 @@ def create_checkout_session(request, booking_id):
     return redirect(session.url)
 
 
-def home(request):
-    return render(request, 'home.html')
-
-
 def accommodation(request):
-    return render(request, 'accommodation.html')
+    return render(request, 'menu/accommodation.html')
 
 
 def destinations(request):
-    return render(request, 'destinations.html')
+    return render(request, 'menu/destinations.html')
 
 
 def services(request):
-    return render(request, 'services.html')
+    return render(request, 'menu/services.html')
 
 
 def experiences(request):
-    return render(request, 'experiences.html')
+    return render(request, 'menu/experiences.html')
 
 
 def offers(request):
-    return render(request, 'offers.html')
+    return render(request, 'menu/offers.html')
 
 
 def blog(request):
-    return render(request, 'blog.html')
+    return render(request, 'menu/blog.html')

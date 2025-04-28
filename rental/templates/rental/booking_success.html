@@ -1,12 +1,7 @@
-{% load i18n %}
-<!DOCTYPE html>
-<html lang="{{ LANGUAGE_CODE }}">
-<head>
-    <meta charset="UTF-8">
-    <title>{% trans "Reservation Successful" %}</title>
-</head>
-<body>
+{% extends "menu/base.html" %}
+{% load i18n static %}
 
+{% block content %}
 <h1>{% trans "Reservation Successful" %}</h1>
 
 <p>{% trans "Thank you for your reservation." %}</p>
@@ -31,7 +26,4 @@
     </form>
 {% endif %}
 
-<a href="{% url 'property_list' %}">{% trans "Back to Home" %}</a>
-
-</body>
-</html>
+{% endblock %}

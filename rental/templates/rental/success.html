@@ -1,12 +1,8 @@
-{% load i18n %}
-<!DOCTYPE html>
-<html lang="{{ LANGUAGE_CODE }}">
-<head>
-    <meta charset="UTF-8">
-    <title>{% trans "Payment Successful" %}</title>
-</head>
-<body>
+{% extends "menu/base.html" %}
+{% load i18n static %}
 
+{% block content %}
+<title>{% trans "Payment Successful" %}</title>
 <h1 style="color: green;">{% trans "Thank you!" %}</h1>
 
 <p>{% trans "Your payment was successful. Your reservation is now fully confirmed." %}</p>
@@ -14,6 +10,4 @@
 <p>{% trans "We look forward to welcoming you!" %}</p>
 
 <a href="{% url 'property_list' %}">{% trans "Return to Home Page" %}</a>
-
-</body>
-</html>
+{% endblock %}
