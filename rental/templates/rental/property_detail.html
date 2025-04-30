@@ -1,52 +1,155 @@
 {% extends "menu/base.html" %}
-{% load i18n %}
+{% load static i18n %}
+
+{% block title %}{{ property.title }} — Tranquil Oasis Rentals{% endblock %}
+
+{# ------------------------------------------------- #}
+{#   Подключаем стили Flatpickr и Swiper + свои стили  #}
+{# ------------------------------------------------- #}
+{% block extra_css %}
+  <link rel="stylesheet" href="{% static 'vendor/flatpickr/flatpickr.min.css' %}">
+  <link rel="stylesheet" href="{% static 'vendor/swiper/swiper-bundle.min.css' %}">
+  <link rel="stylesheet" href="{% static 'css/property_detail.css' %}">
+{% endblock %}
 
 {% block content %}
-<title>{{ property.title }}</title>
+<div class="container property-detail">
 
+  <h1 class="section-title">{{ prop.title }}</h1>
 
-<h1>{{ property.title }}</h1>
+  {# ——— Главная фотография ——— #}
+  {% if prop.main_image %}
+    <div class="detail-main-img">
+      <img src="{{ prop.main_image.url }}"
+           alt="{{ prop.title }}"
+           class="detail-img"
+           loading="lazy">
+    </div>
+  {% endif %}
 
-<p><strong>{% trans "Description" %}:</strong> {{ property.description }}</p>
-<p><strong>{% trans "Price per night" %}:</strong> {{ property.price_per_night }} €</p>
-<p><strong>{% trans "Address" %}:</strong> {{ property.address }}</p>
+  {# ——— Галерея дополнительных фото (Swiper) ——— #}
+  {% if prop.gallery_images.exists %}
+    <div class="swiper-container">
+      <div class="swiper-wrapper">
+        {% for img in prop.gallery_images.all %}
+          <div class="swiper-slide">
+            <img src="{{ img.image.url }}"
+                 alt="{{ property.title }}"
+                 class="slide-img"
+                 loading="lazy">
+          </div>
+        {% endfor %}
+      </div>
+      <div class="swiper-pagination"></div>
+      <div class="swiper-button-prev"></div>
+      <div class="swiper-button-next"></div>
+    </div>
+  {% endif %}
 
+  {# ——— Описание и цена ——— #}
+  <div class="detail-info">
+    <p class="description">{{ prop.description|linebreaks }}</p>
+    <p class="price">
+      {{ prop.price_per_night }} € / <small>{% trans "night" %}</small>
+    </p>
+  </div>
 
-<h2>{% trans "Availability Calendar" %}</h2>
-<div id="calendar"></div>
+  {# ——— Форма бронирования с Flatpickr ——— #}
+  <div class="booking-section">
+    <h2>{% trans "Book your stay" %}</h2>
+    <form method="post" class="booking-form">
+      {% csrf_token %}
 
-<h2>{% trans "Reserve this property" %}</h2>
+      <label for="check_in">{% trans "Check-in" %}</label>
+      <input id="check_in" name="check_in" required>
 
-<form method="post" id="booking-form">
-    {% csrf_token %}
+      <label for="check_out">{% trans "Check-out" %}</label>
+      <input id="check_out" name="check_out" required>
 
-    <label for="date_range">{% trans "Select Dates" %}:</label><br>
-    <input type="text" id="dateRangePicker" name="date_range" required><br><br>
+       <div class="row">
+        <div class="col">
+          <label for="first_name">{% trans "First Name" %}</label>
+          <input id="first_name" name="first_name" required>
+        </div>
+        <div class="col">
+          <label for="last_name">{% trans "Last Name" %}</label>
+          <input id="last_name" name="last_name" required>
+        </div>
+      </div>
 
-    <label for="name">{% trans "Name" %}:</label><br>
-    <input type="text" name="name" required><br><br>
+      <div class="row">
+        <div class="col">
+          <label for="email">{% trans "Email" %}</label>
+          <input type="email" id="email" name="email" required>
+        </div>
+        <div class="col">
+          <label for="phone">{% trans "Phone" %}</label>
+          <input id="phone" name="phone">
+        </div>
+      </div>
 
-    <label for="email">{% trans "Email" %}:</label><br>
-    <input type="email" name="email" required><br><br>
+      <div class="row">
+        <div class="col">
+          <label for="adults">{% trans "Adults" %}</label>
+          <input type="number" id="adults" name="adults" min="1" value="1">
+        </div>
+        <div class="col">
+          <label for="children">{% trans "Children" %}</label>
+          <input type="number" id="children" name="children" min="0" value="0">
+        </div>
+        <div class="col">
+          <label for="infants">{% trans "Infants" %}</label>
+          <input type="number" id="infants" name="infants" min="0" value="0">
+        </div>
+      </div>
 
-    <label for="phone">{% trans "Phone" %}:</label><br>
-    <input type="text" name="phone" required><br><br>
+      <div class="extras">
+        <label><input type="checkbox" name="add_bed" id="add_bed"> {% trans "Additional bed (€15/night)"  %}</label>
+        <label><input type="checkbox" name="high_chair" id="high_chair"> {% trans "High chair (€5/night)"  %}</label>
+      </div>
 
-    <button type="submit">{% trans "Reserve" %}</button>
-</form>
+      <label for="message">{% trans "Message" %}</label>
+      <textarea id="message" name="message"></textarea>
 
-<!-- Flatpickr JS -->
-<script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+      <button type="submit" class="btn btn-primary">
+        {% trans "Confirm Booking" %}
+      </button>
+    </form>
+  </div>
+</div>
+{% endblock %}
 
-<script>
-// Инициализация календаря
-flatpickr("#dateRangePicker", {
-    mode: "range",
-    dateFormat: "Y-m-d",
-    inline: true,
-    disable: {{ booked_dates|safe }},
-    minDate: "today",
-    locale: "{{ LANGUAGE_CODE }}",
-});
-</script>
+{# ------------------------------------------------------------ #}
+{#   Подключаем Flatpickr + Swiper + инициализация скриптов      #}
+{# ------------------------------------------------------------ #}
+{% block extra_js %}
+  <script src="{% static 'vendor/flatpickr/flatpickr.min.js' %}"></script>
+  <script src="{% static 'vendor/swiper/swiper-bundle.min.js' %}"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      // уже забронированные даты из view, передаются как JSON-массив строк 'YYYY-MM-DD'
+      const bookedDates = {{ booked_dates|safe }};
+
+      flatpickr("#check_in", {
+        dateFormat: "Y-m-d",
+        disable: bookedDates,
+        minDate: "today",
+      });
+      flatpickr("#check_out", {
+        dateFormat: "Y-m-d",
+        disable: bookedDates,
+        minDate: "today",
+      });
+
+      // Swiper
+      new Swiper('.swiper-container', {
+        loop: true,
+        pagination: { el: '.swiper-pagination', clickable: true },
+        navigation: {
+          nextEl: '.swiper-button-next',
+          prevEl: '.swiper-button-prev',
+        },
+      });
+    });
+  </script>
 {% endblock %}

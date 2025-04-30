@@ -1,29 +1,84 @@
 {% extends "menu/base.html" %}
 {% load i18n static %}
 
-{% block content %}
-<h1>{% trans "Reservation Successful" %}</h1>
+{% block title %}{% trans "Booking Success" %} – Tranquil Oasis{% endblock %}
 
-<p>{% trans "Thank you for your reservation." %}</p>
-
-<h2>{% trans "Booking Details" %}</h2>
-<ul>
-    <li><strong>{% trans "Property" %}:</strong> {{ booking.property.title }}</li>
-    <li><strong>{% trans "Name" %}:</strong> {{ booking.name }}</li>
-    <li><strong>{% trans "Dates" %}:</strong> {{ booking.check_in }} — {{ booking.check_out }}</li>
-    <li><strong>{% trans "Total nights" %}:</strong> {{ nights }}</li>
-    <li><strong>{% trans "Price per night" %}:</strong> {{ booking.property.price_per_night }} €</li>
-</ul>
-
-<h2>{% trans "Payment" %}</h2>
-
-{% if booking.is_paid %}
-    <p style="color: green;"><strong>{% trans "Already Paid" %}</strong></p>
-{% else %}
-    <form action="{% url 'create_checkout_session' booking.pk %}" method="POST">
-        {% csrf_token %}
-        <button type="submit">{% trans "Pay now" %}</button>
-    </form>
-{% endif %}
-
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/booking_success.css' %}">
 {% endblock %}
+
+{% block content %}
+<div class="container success-page">
+    <div class="success-box">
+        <!-- Иконка успешного брони -->
+        <svg class="icon-success" width="64" height="64" viewBox="0 0 16 16">
+            <path fill="currentColor"
+                  d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM7.03 11.97l5.2-5.2-.707-.707-4.493 4.493L4.48 7.72l-.707.707 3.257 3.257z"/>
+        </svg>
+
+        <h1 class="success-title">{% trans "Reservation Confirmed!" %}</h1>
+        <p>{% trans "Thank you for your booking." %}</p>
+
+        <!-- Информация о брони -->
+        <div class="booking-details">
+            <h2>{% trans "Your Details" %}</h2>
+            <ul>
+                <li><strong>{% trans "Name" %}:</strong> {{ booking.first_name }} {{ booking.last_name }}</li>
+                <li><strong>{% trans "Email" %}:</strong> <a href="mailto:{{ booking.email }}">{{ booking.email }}</a>
+                </li>
+                {% if booking.phone %}
+                <li><strong>{% trans "Phone" %}:</strong> {{ booking.phone }}</li>
+                {% endif %}
+            </ul>
+        </div>
+
+        <!-- Даты и гости -->
+        <div class="booking-meta">
+            <h2>{% trans "Stay Details" %}</h2>
+            <ul>
+                <li><strong>{% trans "Check-in" %}:</strong> {{ booking.check_in|date:"j F Y" }}</li>
+                <li><strong>{% trans "Check-out" %}:</strong> {{ booking.check_out|date:"j F Y" }}</li>
+                <li><strong>{% trans "Nights" %}:</strong> {{ booking.nights }}</li>
+                <li><strong>{% trans "Adults" %}:</strong> {{ booking.adults }}</li>
+                <li><strong>{% trans "Children" %}:</strong> {{ booking.children }}</li>
+                <li><strong>{% trans "Infants" %}:</strong> {{ booking.infants }}</li>
+            </ul>
+        </div>
+
+        <!-- Разбивка стоимости -->
+        <div class="booking-cost">
+            <h2>{% trans "Cost Breakdown" %}</h2>
+            <ul>
+                <li>
+                    {% trans "Rental" %} <span>{{ booking.base_cost|floatformat:2 }} €</span>
+                    <br/>
+                    {{ booking.rental_property.price_per_night|floatformat:2 }} € × {{ booking.nights }}{% trans "nights" %}
+                </li>
+                {% if booking.add_bed %}
+                <li>
+                    {% trans "Additional bed" %}:
+                    <span>{{ booking.bed_cost|floatformat:2 }} €</span>
+                </li>
+                {% endif %}
+                {% if booking.high_chair %}
+                <li>
+                    {% trans "High chair" %}:
+                    <span>{{ booking.chair_cost|floatformat:2 }} €</span>
+                </li>
+                {% endif %}
+                <li>
+                    {% trans "Cleaning fee" %}
+                    <span>{{ booking.cleaning_fee|floatformat:2 }} €</span>
+                </li>
+                <li class="total">
+                    {% trans "Total Paid" %}
+                    <span>{{ booking.total_cost|floatformat:2 }} €</span>
+                </li>
+            </ul>
+        </div>
+
+        <a href="{% url 'rental:home' %}" class="btn btn-primary mt-3">{% trans "Back to Home" %}</a>
+    </div>
+</div>
+{% endblock %}
+
