@@ -50,6 +50,9 @@ STATIC_URL = '/static/'
 STATICFILES_DIRS = [BASE_DIR / "static"]
 STATIC_ROOT = BASE_DIR / "staticfiles"
 
+MEDIA_URL = '/media/'
+MEDIA_ROOT = BASE_DIR / 'media'
+
 DEFAULT_FROM_EMAIL = env('DEFAULT_FROM_EMAIL', default='domsolncsa@gmail.com')
 ADMIN_EMAIL = env('ADMIN_EMAIL')
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'

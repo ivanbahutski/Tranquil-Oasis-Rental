@@ -2,28 +2,26 @@
 {% load i18n static %}
 
 {% block content %}
-<h1>{% trans "Reservation Successful" %}</h1>
+<div class="container my-5">
+    <h2 class="mb-4">Reservation Successful</h2>
+    <p>Thank you for your reservation.</p>
 
-<p>{% trans "Thank you for your reservation." %}</p>
+    <div class="card p-4 shadow-sm">
+        <h4>Booking Details</h4>
+        <p><strong>Property:</strong> {{ booking.property.title }}</p>
+        <p><strong>Name:</strong> {{ booking.first_name }} {{ booking.last_name }}</p>
+        <p><strong>Dates:</strong> {{ check_in }} - {{ check_out }}</p>
+        <p><strong>Total nights:</strong> {{ nights }}</p>
+        <p><strong>Price per night:</strong> {{ booking.property.price_per_night }} €</p>
+    </div>
 
-<h2>{% trans "Booking Details" %}</h2>
-<ul>
-    <li><strong>{% trans "Property" %}:</strong> {{ booking.property.title }}</li>
-    <li><strong>{% trans "Name" %}:</strong> {{ booking.name }}</li>
-    <li><strong>{% trans "Dates" %}:</strong> {{ booking.check_in }} — {{ booking.check_out }}</li>
-    <li><strong>{% trans "Total nights" %}:</strong> {{ nights }}</li>
-    <li><strong>{% trans "Price per night" %}:</strong> {{ booking.property.price_per_night }} €</li>
-</ul>
-
-<h2>{% trans "Payment" %}</h2>
-
-{% if booking.is_paid %}
-    <p style="color: green;"><strong>{% trans "Already Paid" %}</strong></p>
-{% else %}
-    <form action="{% url 'create_checkout_session' booking.pk %}" method="POST">
-        {% csrf_token %}
-        <button type="submit">{% trans "Pay now" %}</button>
-    </form>
-{% endif %}
-
+    <div class="mt-4">
+        <h4>Payment</h4>
+        <form method="post" action="{% url 'create_checkout_session' booking.id %}">
+            {% csrf_token %}
+            <button type="submit" class="btn btn-warning btn-lg">Pay Now</button>
+        </form>
+    </div>
+</div>
 {% endblock %}
+

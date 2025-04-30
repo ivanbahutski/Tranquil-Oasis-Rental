@@ -1,7 +1,10 @@
 from django.urls import path
 from django.views.generic import TemplateView
-
+from django.conf import settings
+from django.conf.urls.static import static
 from . import views
+
+app_name = 'rental'
 
 urlpatterns = [
     path('', views.property_list, name='home'),
@@ -17,3 +20,9 @@ urlpatterns = [
     path('offers/', views.offers, name='offers'),
     path('blog/', views.blog, name='blog'),
 ]
+
+
+
+
+if settings.DEBUG:
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
