@@ -1,133 +1,57 @@
-{% load i18n static %}
+{% load static  %}
+{% load i18n  %}
 
 <!DOCTYPE html>
-<html lang="{{ LANGUAGE_CODE }}">
+<html lang="{% get_current_language as LANGUAGE_CODE %}{{ LANGUAGE_CODE }}">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <!-- Bootstrap 5 CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
-      integrity="sha384-ENjdO4Dr2bkBIFxQpeo5xy8JcDEjDfEmsVZ7Wv5y8z8UJ0ZB1zZlW9KK1R8q+6J/" crossorigin="anonymous">
-    <title>Tranquil Oasis</title>
-    <!-- Language Switcher -->
-    {% block extrastyle %}
+    <title>{% block title %}Tranquil Oasis Rentals{% endblock %}</title>
 
-    {% endblock %}
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 0;
-        }
-        .menu-toggle {
-            display: flex;
-            flex-direction: column;
-            cursor: pointer;
-            width: 30px;
-            margin: 10px;
-        }
-        .bar {
-            height: 4px;
-            width: 100%;
-            background-color: #333;
-            margin: 5px 0;
-            border-radius: 2px;
-        }
-        nav.mobile-menu {
-            display: none;
-            background-color: #ffc107;
-            padding: 20px;
-            position: absolute;
-            top: 60px;
-            right: 10px;
-            border-radius: 10px;
-        }
-        nav.mobile-menu ul {
-            list-style: none;
-            padding: 0;
-        }
-        nav.mobile-menu li {
-            margin-bottom: 10px;
-        }
-        nav.mobile-menu a {
-            text-decoration: none;
-            color: #000;
-            font-weight: bold;
-        }
-        header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            background-color: #fff;
-            padding: 10px 20px;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-            position: relative;
-            z-index: 10;
-        }
-    </style>
+    <!-- CSS -->
+    <link rel="stylesheet" href="{% static 'css/base.css' %}">
+    <link rel="stylesheet" href="{% static 'css/menu.css' %}">
+
+    {% block extra_css %}{% endblock %}
 </head>
 <body>
-
-<header>
-    <div class="logo">
-        <h1><a href="{% url 'home' %}">Tranquil Oasis</a></h1>
+<header class="site-header">
+    <div class="container header-inner">
+        <a href="{% url 'rental:home' %}" class="logo">Tranquil Oasis</a>
+        <button id="menu-toggle"
+                aria-controls="nav-menu"
+                aria-expanded="false"
+                aria-label="{% trans 'Toggle navigation' %}">
+            <span class="bar"></span>
+            <span class="bar"></span>
+            <span class="bar"></span>
+        </button>
+        <nav class="nav-menu">
+            <ul class="nav-list">
+                <li><a href="{% url 'rental:home' %}">{% trans "Home" %}</a></li>
+                <li><a href="{% url 'rental:accommodation' %}">{% trans "Accommodation" %}</a></li>
+                <li><a href="{% url 'rental:destinations' %}">{% trans "Destinations" %}</a></li>
+                <li><a href="{% url 'rental:services' %}">{% trans "Services" %}</a></li>
+                <li><a href="{% url 'rental:experiences' %}">{% trans "Experiences" %}</a></li>
+                <li><a href="{% url 'rental:offers' %}">{% trans "Offers" %}</a></li>
+                <li><a href="{% url 'rental:blog' %}">{% trans "Blog" %}</a></li>
+            </ul>
+        </nav>
     </div>
-    <form action="{% url 'set_language' %}" method="post">
-        {% csrf_token %}
-        <select name="language" onchange="this.form.submit()">
-            {% get_current_language as LANGUAGE_CODE %}
-            {% get_available_languages as LANGUAGES %}
-            {% for lang_code, lang_name in LANGUAGES %}
-                <option value="{{ lang_code }}" {% if lang_code == LANGUAGE_CODE %}selected{% endif %}>
-                    {{ lang_name }}
-                </option>
-            {% endfor %}
-        </select>
-    </form>
-    <div class="menu-toggle" id="menu-toggle">
-        <div class="bar"></div>
-        <div class="bar"></div>
-        <div class="bar"></div>
-    </div>
-
 </header>
 
-<nav class="mobile-menu" id="mobile-menu">
-    <ul>
-        <li><a href="{% url 'home' %}">Home</a></li>
-        <li><a href="{% url 'accommodation' %}">Accommodation</a></li>
-        <li><a href="{% url 'destinations' %}">Destinations</a></li>
-        <li><a href="{% url 'services' %}">Services</a></li>
-        <li><a href="{% url 'experiences' %}">Experiences</a></li>
-        <li><a href="{% url 'offers' %}">Offers</a></li>
-        <li><a href="{% url 'blog' %}">Blog</a></li>
-    </ul>
-</nav>
-
-<main>
-    {% block content %}
-    <!-- Тут будет основной контент каждой страницы -->
-    {% endblock %}
+<main class="site-main container">
+    {% block content %}{% endblock %}
 </main>
 
-<script>
-    document.getElementById('menu-toggle').addEventListener('click', function() {
-        var menu = document.getElementById('mobile-menu');
-        if (menu.style.display === 'block') {
-            menu.style.display = 'none';
-        } else {
-            menu.style.display = 'block';
-        }
-    });
-</script>
-<!-- Bootstrap 5 JS -->
-<script
-        src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
-        integrity="sha384-QmjeMEvA6sFSqZB16NfrE3TZfX0wEZnK4Sxtsx5fZP6VuWkPJB0C9a37hYMOJdZp"
-        crossorigin="anonymous">
-</script>
-     {% block extrascripts %}
+<footer class="site-footer">
+    <div class="container text-center">
+        <p>&copy; {{ now|date:"Y" }} Tranquil Oasis Rentals</p>
+    </div>
+</footer>
 
-     {% endblock %}
+<!-- JS -->
+<script src="{% static 'js/menu.js' %}" defer></script>
+{% block extra_js %}{% endblock %}
 </body>
 </html>
