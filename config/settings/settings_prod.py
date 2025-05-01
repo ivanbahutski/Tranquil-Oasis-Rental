@@ -1,3 +1,4 @@
+import os
 from config.settings.base import *  # noqa
 
 
@@ -5,6 +6,7 @@ ALLOWED_HOSTS = env.list('ALLOWED_HOSTS', default=[])
 
 # Доверенные источники для CSRF
 CSRF_TRUSTED_ORIGINS = env.list('CSRF_TRUSTED_ORIGINS', default=[])
+os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'config.settings')
 
 # Безопасность
 SESSION_COOKIE_SECURE = True
