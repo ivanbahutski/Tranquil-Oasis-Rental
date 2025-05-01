@@ -5,9 +5,8 @@ from config.settings.base import *
 ALLOWED_HOSTS = env.list('ALLOWED_HOSTS', default=[])
 
 DATABASES = {
-    'default': dj_database_url.config(
-        default=os.environ.get('DATABASE_URL_PROD'),
-        conn_max_age=600
+    'default': dj_database_url.config(conn_max_age=600
+        #default=os.environ.get('DATABASE_URL_PROD'),
     )
 }
 
