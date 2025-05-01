@@ -1,8 +1,15 @@
 import os
-from config.settings.base import *  # noqa
-
+import dj_database_url
+from config.settings.base import *
 
 ALLOWED_HOSTS = env.list('ALLOWED_HOSTS', default=[])
+
+DATABASES = {
+    'default': dj_database_url.config(
+        default=os.environ.get('DATABASE_URL_PROD'),
+        conn_max_age=600
+    )
+}
 
 # Доверенные источники для CSRF
 CSRF_TRUSTED_ORIGINS = env.list('CSRF_TRUSTED_ORIGINS', default=[])
