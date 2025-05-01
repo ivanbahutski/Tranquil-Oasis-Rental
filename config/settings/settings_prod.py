@@ -2,7 +2,7 @@ import os
 import dj_database_url
 from config.settings.base import *
 
-ALLOWED_HOSTS = env.list('ALLOWED_HOSTS', default=[])
+ALLOWED_HOSTS = env.list('ALLOWED_HOSTS')
 
 DATABASES = {
     'default': dj_database_url.config(conn_max_age=600
