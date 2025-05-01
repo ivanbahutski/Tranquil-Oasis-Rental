@@ -6,7 +6,6 @@ ALLOWED_HOSTS = env.list('ALLOWED_HOSTS', default=[])
 
 # Доверенные источники для CSRF
 CSRF_TRUSTED_ORIGINS = env.list('CSRF_TRUSTED_ORIGINS', default=[])
-SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'config.settings')
 
 # Безопасность
