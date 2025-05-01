@@ -1,6 +1,6 @@
 from config.settings.base import *  # noqa
 
-DEBUG = False
+
 ALLOWED_HOSTS = env.list('ALLOWED_HOSTS', default=[])
 
 # Доверенные источники для CSRF
